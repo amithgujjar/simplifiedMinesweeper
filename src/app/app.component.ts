@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,  ViewChild , AfterViewInit, Input } from '@angular/core';
+import { StopwatchComponent } from './stopwatch/stopwatch.component'
+
 declare var $: any;
 
 @Component({
@@ -6,15 +8,21 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'simplified minesweeper';
-  public mineSweeperRow = 10;
-  public mineSweeperCol = 10;
-  public mineSweeperCount = 5;
+  public mineSweeperRow;
+  public mineSweeperCol;
+  public mineSweeperCount;
   public completeArray;
   public displayMessage;
+  public lastGameTime;
 
+  // @ViewChild("swcomp", { static: true }) swcomp: StopwatchComponent;
+  public swcomp = new StopwatchComponent();
   startGame() {
+    this.swcomp.reset();
+    this.swcomp.start();
+    
     console.log(this.mineSweeperRow + '' + this.mineSweeperCol + '' + this.mineSweeperCount);
     let rowArrayLen = this.mineSweeperRow;
     let colArrayLen = this.mineSweeperCol;
@@ -156,9 +164,21 @@ export class AppComponent {
       }
     }
     $('.col.hidden').removeClass('hidden');
+
+    let miliSecOut = document.getElementById("milisecId").innerHTML;
+    let secOut = document.getElementById("secId").innerHTML;
+    let minOut = document.getElementById("minId").innerHTML;
+    let hourOut = document.getElementById("hourId").innerHTML
+
+     this.swcomp.stop();
+    // let updatedSWComp = new StopwatchComponent();
+    this.lastGameTime = hourOut + ":" + minOut + ":" + secOut + ":" + miliSecOut;
   }
 
   ngAfterViewInit() {
+     this.mineSweeperRow = 10;
+     this.mineSweeperCol = 10;
+     this.mineSweeperCount = 5;
     this.startGame()
   }
 }
