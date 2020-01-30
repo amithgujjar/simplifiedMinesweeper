@@ -22,7 +22,7 @@ export class AppComponent implements AfterViewInit {
   startGame() {
     this.swcomp.reset();
     this.swcomp.start();
-    
+    this.displayMessage = "";
     console.log(this.mineSweeperRow + '' + this.mineSweeperCol + '' + this.mineSweeperCount);
     let rowArrayLen = this.mineSweeperRow;
     let colArrayLen = this.mineSweeperCol;
@@ -138,9 +138,11 @@ export class AppComponent implements AfterViewInit {
     let message = null;
     let icon = null;
     if (isWin) {
+      this.swcomp.stop();
       this.displayMessage = 'YOU WON!';
       icon = 'fa fa-flag';
     } else {
+      this.swcomp.stop();
       this.displayMessage = 'YOU LOST!';
       icon = 'fa fa-bomb';
     }
